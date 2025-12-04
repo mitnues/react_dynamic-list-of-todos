@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
 
 type Props = {
@@ -7,7 +8,11 @@ type Props = {
   onSelect: (todo: Todo) => void;
 };
 
-export const TodoList: React.FC<Props> = ({ todos, selectedTodoId, onSelect }) => (
+export const TodoList: React.FC<Props> = ({
+  todos,
+  selectedTodoId,
+  onSelect,
+}) => (
   <table className="table is-narrow is-fullwidth">
     <thead>
       <tr>
@@ -24,7 +29,11 @@ export const TodoList: React.FC<Props> = ({ todos, selectedTodoId, onSelect }) =
 
     <tbody>
       {todos.map(todo => (
-        <tr key={todo.id} data-cy="todo" className={todo.completed ? 'has-background-info-light' : ''}>
+        <tr
+          key={todo.id}
+          data-cy="todo"
+          className={classNames({ 'has-background-info-light': todo.completed })}
+        >
           <td className="is-vcentered">{todo.id}</td>
           <td className="is-vcentered">
             {todo.completed ? (
@@ -33,7 +42,12 @@ export const TodoList: React.FC<Props> = ({ todos, selectedTodoId, onSelect }) =
               </span>
             ) : null}
           </td>
-          <td className={`is-vcentered is-expanded ${todo.completed ? 'has-text-success' : 'has-text-danger'}`}>
+          <td
+            className={classNames('is-vcentered', 'is-expanded', {
+              'has-text-success': todo.completed,
+              'has-text-danger': !todo.completed,
+            })}
+          >
             <p>{todo.title}</p>
           </td>
           <td className="has-text-right is-vcentered">
@@ -44,7 +58,12 @@ export const TodoList: React.FC<Props> = ({ todos, selectedTodoId, onSelect }) =
               onClick={() => onSelect(todo)}
             >
               <span className="icon">
-                <i className={`far ${selectedTodoId === todo.id ? 'fa-eye-slash' : 'fa-eye'}`} />
+                <i
+                  className={classNames('far', {
+                    'fa-eye-slash': selectedTodoId === todo.id,
+                    'fa-eye': selectedTodoId !== todo.id,
+                  })}
+                />
               </span>
             </button>
           </td>

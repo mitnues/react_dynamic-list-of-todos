@@ -35,8 +35,14 @@ export const App: React.FC = () => {
 
     return todos
       .filter(t => {
-        if (status === 'active') return !t.completed;
-        if (status === 'completed') return t.completed;
+        if (status === 'active') {
+          return !t.completed;
+        }
+
+        if (status === 'completed') {
+          return t.completed;
+        }
+
         return true;
       })
       .filter(t => (q ? t.title.toLowerCase().includes(q) : true));
@@ -71,7 +77,9 @@ export const App: React.FC = () => {
               <TodoFilter
                 status={status}
                 query={query}
-                onStatusChange={value => setStatus(value as 'all' | 'active' | 'completed')}
+                onStatusChange={value =>
+                  setStatus(value as 'all' | 'active' | 'completed')
+                }
                 onQueryChange={v => setQuery(v)}
                 onClear={() => setQuery('')}
               />
@@ -79,13 +87,23 @@ export const App: React.FC = () => {
 
             <div className="block">
               {loadingTodos ? <Loader /> : null}
-              <TodoList todos={filteredTodos} selectedTodoId={selectedTodo?.id ?? null} onSelect={handleSelect} />
+              <TodoList
+                todos={filteredTodos}
+                selectedTodoId={selectedTodo?.id ?? null}
+                onSelect={handleSelect}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <TodoModal isOpen={isModalOpen} todo={selectedTodo} user={user} loadingUser={loadingUser} onClose={handleClose} />
+      <TodoModal
+        isOpen={isModalOpen}
+        todo={selectedTodo}
+        user={user}
+        loadingUser={loadingUser}
+        onClose={handleClose}
+      />
     </>
   );
 };
